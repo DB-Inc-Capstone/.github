@@ -1,4 +1,4 @@
-### DB-Inc-Capstone
+### DB Inc. 산학캡스톤 프로젝트
 
 - 다음 프로젝트는 MSA(Microservices Architecture) 방식으로 구현한 사원 업무 관리 플랫폼입니다.
   - 프로젝트 명 : `Cloud Native/MSA 기반의 업무 관리 시스템 및 관리자용 대시보드 구축`
