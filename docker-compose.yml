@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  eurekaserver:
+    container_name: eurekaserver
+    restart: on-failure
+    build:
+      context: ./back-eurekaserver
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - eureka_network
+
+  apigateway:
+    container_name: apigateway
+    restart: on-failure
+    build:
+      context: ./back-apigateway
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eurekaserver:8761/eureka
+    depends_on:
+      - eurekaserver
+    networks:
+      - eureka_network
+
+
+  database:
+    container_name: postgres_db
+    image: postgres:14.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: back_worker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      TZ: 'Asia/Seoul'
+    expose:
+      - "5432:5432"
+    networks:
+      - database_network
+
+  back-worker:
+    container_name: back-worker
+    restart: on-failure
+    build:
+      context: ./back-worker
+      dockerfile: Dockerfile
+    ports:
+      - "9001:9001"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/back_worker
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eurekaserver:8761/eureka
+    depends_on:
+      - database
+      - eurekaserver
+      - apigateway
+    networks:
+      - database_network
+      - eureka_network
+
+networks:
+  database_network:
+  eureka_network:
