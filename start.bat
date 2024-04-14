@@ -24,4 +24,5 @@ cd ..
 cd back-worker && .\gradlew.bat build
 cd ..
 
+docker-compose down
 docker-compose up
