@@ -22,7 +22,6 @@ services:
       - "9000:9000"
     environment:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eurekaserver:8761/eureka
-      BACK_WORKER_SERVICE_URL: http://back-worker:9001/
     depends_on:
       - eurekaserver
     networks:
