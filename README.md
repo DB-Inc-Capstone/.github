@@ -4,15 +4,20 @@
 
 <br/>
 
-- `docker-compose.yml` 사용법
+- 개인 로컬 `docker-compose.yml` 사용법
+  - 구축 환경
+    - Temurin JDK 8
+    - Docker v24.0.7
+
   - 윈도우
-    - PowerShell 에서 `.\start.bat` 실행
+    - PowerShell 에서 `.\build_win.bat && .\run_win.bat` 실행
+
   - 리눅스 및 맥(Mac)
     - *추후 제공*
    
 <br/>
     
-- 아마존 자동배포 기능 사용
+- 아마존 CI/CD 기능 사용
   - *추후 제공*
 
  <br/>

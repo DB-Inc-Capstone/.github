@@ -1,8 +1,8 @@
 version: '3'
 
 services:
-  eurekaserver:
-    container_name: eurekaserver
+  eureka-server:
+    container_name: eureka-server
     restart: on-failure
     build:
       context: ./back-eurekaserver
@@ -12,8 +12,8 @@ services:
     networks:
       - eureka_network
 
-  apigateway:
-    container_name: apigateway
+  api-gateway:
+    container_name: api-gateway
     restart: on-failure
     build:
       context: ./back-apigateway
@@ -21,10 +21,10 @@ services:
     ports:
       - "9000:9000"
     environment:
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eurekaserver:8761/eureka
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_INETUTILS_IGNORED_INTERFACES: eureka_network
     depends_on:
-      - eurekaserver
+      - eureka-server
     networks:
       - eureka_network
 
@@ -53,15 +53,15 @@ services:
       - "9001:9001"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/back_worker
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eurekaserver:8761/eureka
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_CLOUD_INETUTILS_IGNORED_INTERFACES: eureka_network
     depends_on:
       - database
-      - eurekaserver
-      - apigateway
+      - eureka-server
+      - api-gateway
     networks:
-      - database_network
       - eureka_network
+      - database_network
 
 networks:
   database_network:
