@@ -40,9 +40,6 @@ services:
     container_name: back-worker
     image: devtae/back-worker
     restart: on-failure
-    build:
-      context: ./back-worker
-      dockerfile: Dockerfile
     ports:
       - "9001:9001"
     environment:
