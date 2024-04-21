@@ -12,6 +12,7 @@ services:
 
   back-apigateway:
     container_name: back-apigateway
+    image: devtae/back-apigateway
     restart: on-failure
     ports:
       - "9000:9000"
@@ -22,7 +23,6 @@ services:
       - back-eurekaserver
     networks:
       - eureka_network
-
 
   back-worker-database:
     container_name: back-worker-database
@@ -38,6 +38,7 @@ services:
 
   back-worker:
     container_name: back-worker
+    image: devtae/back-worker
     restart: on-failure
     build:
       context: ./back-worker
