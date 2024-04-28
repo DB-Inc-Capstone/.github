@@ -9,7 +9,8 @@
 <br/>
 
 - 개인 로컬 `docker-compose.yml` 사용법
-  - 터미널에서 `docker-compose up` 실행
+  - 터미널에서 `docker-compose --env-file ./.env up` 실행
+  - .env 파일은 .gitignore 등의 방법으로 비밀번호 배포를 방지함
    
 <br/>
     
