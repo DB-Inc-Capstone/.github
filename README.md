@@ -9,8 +9,11 @@
 <br/>
 
 - 개인 로컬 `docker-compose.yml` 사용법
-  - 터미널에서 `docker-compose --env-file ./.env up` 실행
-  - .env 파일은 .gitignore 등의 방법으로 비밀번호 배포를 방지함
+  - 터미널에서 `docker-compose up` 실행
+  - .env 파일을 아래와 같이 작성하여 사용
+    - POSTGRES_DB_BACK_WORKER=back_worker
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=????
    
 <br/>
     
