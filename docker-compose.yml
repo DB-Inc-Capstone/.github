@@ -52,6 +52,35 @@ services:
       - eureka_network
       - database_network
 
+  back-work-database:
+    container_name: back-work-database
+    image: postgres:14.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_BACK_WORK}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: 'Asia/Seoul'
+    networks:
+      - database_network
+
+  back-work:
+    container_name: back-work
+    image: devtae/back-work
+    restart: on-failure
+    ports:
+      - "9002:9002"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+    depends_on:
+      - back-work-database
+      - back-eurekaserver
+      - back-apigateway
+    networks:
+      - eureka_network
+      - database_network
+
 networks:
   database_network:
   eureka_network:
