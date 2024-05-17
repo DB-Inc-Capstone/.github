@@ -43,6 +43,7 @@ services:
       - "9001:9001"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
     depends_on:
       - back-worker-database
@@ -72,6 +73,7 @@ services:
       - "9002:9002"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
     depends_on:
       - back-work-database
