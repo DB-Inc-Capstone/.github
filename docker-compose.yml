@@ -107,31 +107,31 @@ services:
 #      - eureka_network
 #      - database_network
 
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-    restart: on-failure
-    environment:
-      - discovery.type=single-node
-      - path.logs=
-        - /logs/back-worker-log4j2.log
-        - /logs/back-work-log4j2.log
-        - /logs/back-dashboard-log4j2.log
-    ports:
-      - "9200:9200"
-    volumes:
-      - ./logs:/logs
-    networks:
-      - eureka_network
+#  elasticsearch:
+#    container_name: elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+#    restart: on-failure
+#    environment:
+#      - discovery.type=single-node
+#      - path.logs=
+#        - /logs/back-worker-log4j2.log
+#        - /logs/back-work-log4j2.log
+#        - /logs/back-dashboard-log4j2.log
+#    ports:
+#      - "9200:9200"
+#    volumes:
+#      - ./logs:/logs
+#    networks:
+#      - eureka_network
 
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.15.0
-    restart: on-failure
-    ports:
-      - "5601:5601"
-    networks:
-      - eureka_network
+#  kibana:
+#    container_name: kibana
+#    image: docker.elastic.co/kibana/kibana:7.15.0
+#    restart: on-failure
+#    ports:
+#      - "5601:5601"
+#    networks:
+#      - eureka_network
 
   zipkin:
     container_name: zipkin
