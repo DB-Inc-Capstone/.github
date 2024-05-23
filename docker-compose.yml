@@ -113,7 +113,10 @@ services:
     restart: on-failure
     environment:
       - discovery.type=single-node
-      - path.logs=/logs
+      - path.logs=
+        - /logs/back-worker-log4j2.log
+        - /logs/back-work-log4j2.log
+        - /logs/back-dashboard-log4j2.log
     ports:
       - "9200:9200"
     volumes:
