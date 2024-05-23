@@ -46,6 +46,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9412
+      API_GATEWAY_URL: http://back-apigateway:9000
     depends_on:
       - back-worker-database
       - back-eurekaserver
@@ -79,6 +80,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9412
+      API_GATEWAY_URL: http://back-apigateway:9000
     depends_on:
       - back-work-database
       - back-eurekaserver
@@ -98,6 +100,7 @@ services:
 #    environment:
 #      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
 #      SPRING_ZIPKIN_BASE_URL: http://zipkin:9412
+#      API_GATEWAY_URL: http://back-apigateway:9000
 #    depends_on:
 #      - back-eurekaserver
 #      - back-apigateway
