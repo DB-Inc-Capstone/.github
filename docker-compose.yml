@@ -45,10 +45,13 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9412
     depends_on:
       - back-worker-database
       - back-eurekaserver
       - back-apigateway
+    volumes:
+      - ./logs:/logs
     networks:
       - eureka_network
       - database_network
@@ -75,13 +78,66 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9412
     depends_on:
       - back-work-database
       - back-eurekaserver
       - back-apigateway
+    volumes:
+      - ./logs:/logs
     networks:
       - eureka_network
       - database_network
+
+#  back-dashboard:
+#    container_name: back-dashboard
+#    image: devtae/back-dashboard
+#    restart: on-failure
+#    ports:
+#      - "9003:9003"
+#    environment:
+#      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+#      SPRING_ZIPKIN_BASE_URL: http://zipkin:9412
+#    depends_on:
+#      - back-eurekaserver
+#      - back-apigateway
+#    volumes:
+#      - ./logs:/logs
+#    networks:
+#      - eureka_network
+#      - database_network
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
+    restart: on-failure
+    environment:
+      - discovery.type=single-node
+      - path.logs=/logs
+    ports:
+      - "9200:9200"
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.15.0
+    restart: on-failure
+    ports:
+      - "5601:5601"
+    networks:
+      - eureka_network
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin:latest
+    restart: on-failure
+    ports:
+      - "9411:9411"
+    networks:
+      - eureka_network
 
 networks:
   database_network:
