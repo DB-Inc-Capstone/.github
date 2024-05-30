@@ -4,3 +4,5 @@ back-worker/
 back-work/
 back-dashboard/
 front/
+logs/
+.env
