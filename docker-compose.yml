@@ -91,24 +91,24 @@ services:
       - eureka_network
       - database_network
 
-#  back-dashboard:
-#    container_name: back-dashboard
-#    image: devtae/back-dashboard
-#    restart: on-failure
-#    ports:
-#      - "9003:9003"
-#    environment:
-#      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-#      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
-#      API_GATEWAY_URL: http://back-apigateway:9000
-#    depends_on:
-#      - back-eurekaserver
-#      - back-apigateway
-#    volumes:
-#      - ./logs:/logs
-#    networks:
-#      - eureka_network
-#      - database_network
+  back-dashboard:
+    container_name: back-dashboard
+    image: devtae/back-dashboard
+    restart: on-failure
+    ports:
+      - "9003:9003"
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
 
 #  elasticsearch:
 #    container_name: elasticsearch
