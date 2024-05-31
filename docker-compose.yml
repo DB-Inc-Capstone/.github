@@ -7,6 +7,8 @@ services:
     restart: on-failure
     ports:
       - "80:80"
+    environment:
+      REACT_APP_API_GATEWAY_URL: http://back-apigateway:9000
     networks:
       - eureka_network
 
