@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+  front:
+    container_name: front
+    image: devtae/front
+    restart: on-failure
+    ports:
+      - "80:80"
+    networks:
+      - eureka_network
+
   back-eurekaserver:
     container_name: back-eurekaserver
     image: devtae/back-eurekaserver
