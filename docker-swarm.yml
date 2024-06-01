@@ -6,7 +6,6 @@ version: '3.8'
 services:
   # 프론트 컨테이너
   front:
-    container_name: front
     image: devtae/front
     ports:
       - "80:80"
@@ -26,7 +25,6 @@ services:
 
   # 데이터베이스 컨테이너
   back-worker-database:
-    container_name: back-worker-database
     image: postgres:14.5
     environment:
       POSTGRES_DB: ${POSTGRES_DB_BACK_WORKER}
@@ -50,7 +48,6 @@ services:
         condition: on-failure
 
   back-work-database:
-    container_name: back-work-database
     image: postgres:14.5
     environment:
       POSTGRES_DB: ${POSTGRES_DB_BACK_WORK}
@@ -76,7 +73,6 @@ services:
 
   # 백엔드 컨테이너
   back-eurekaserver:
-    container_name: back-eurekaserver
     image: devtae/back-eurekaserver
     ports:
       - "8761:8761"
@@ -94,7 +90,6 @@ services:
         condition: on-failure
 
   back-apigateway:
-    container_name: back-apigateway
     image: devtae/back-apigateway
     ports:
       - "9000:9000"
@@ -116,7 +111,6 @@ services:
         condition: on-failure
 
   back-worker:
-    container_name: back-worker
     image: devtae/back-worker
     ports:
       - "9001:9001"
@@ -196,7 +190,6 @@ services:
         condition: on-failure
 
   zipkin:
-    container_name: zipkin
     image: openzipkin/zipkin:latest
     ports:
       - "9411:9411"
