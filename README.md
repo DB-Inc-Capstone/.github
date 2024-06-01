@@ -8,8 +8,8 @@
 
 <br/>
 
-- 개인 로컬 `docker-compose.yml` 사용법
-  - 터미널에서 `docker-compose up` 실행
+- `docker-compose.yml` 사용법
+  - 터미널에서 `docker-compose up --build --force-recreate` 실행
   - .env 파일을 아래와 같이 작성하여 사용
     - POSTGRES_DB_BACK_WORKER=back_worker
     - POSTGRES_DB_BACK_WORK=back_work
@@ -20,8 +20,8 @@
 <br/>
     
 - 아마존 CI/CD 기능 사용
-  - 각 레포지토리에 있는 `docker.yml` workflow 파일을 통해 진행합니다.
-  - 빌드 및 도커 이미지 배포를 한 뒤, 아마존으로 변경된 컨테이너만 교환해주는 방식으로 진행합니다.
+  - 각 레포지토리에 있는 `docker.yml` workflow 파일을 통해 Github Action CI/CD 를 진행합니다.
+  - 빌드 및 도커 이미지 배포를 한 뒤, 아마존으로 변경된 컨테이너만 교환해주는 방식으로 진행됩니다.
 
  <br/>
  
