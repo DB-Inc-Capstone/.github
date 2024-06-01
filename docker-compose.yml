@@ -7,8 +7,6 @@ services:
     restart: on-failure
     ports:
       - "80:80"
-    environment:
-      REACT_APP_API_GATEWAY_URL: http://back-apigateway:9000
     networks:
       - eureka_network
 
@@ -43,6 +41,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: 'Asia/Seoul'
+    volumes:
+      - ./back-worker-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
 
@@ -77,6 +77,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: 'Asia/Seoul'
+    volumes:
+      - ./back-work-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
 
