@@ -42,6 +42,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: 'Asia/Seoul'
     volumes:
+      - ./data:/var/lib/postgresql/data
       - ./back-worker-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
@@ -78,6 +79,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: 'Asia/Seoul'
     volumes:
+      - ./data:/var/lib/postgresql/data
       - ./back-work-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
