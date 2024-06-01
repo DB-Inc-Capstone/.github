@@ -47,12 +47,56 @@ services:
     networks:
       - database_network
 
-  back-worker:
-    container_name: back-worker
+  back-worker-1:
+    container_name: back-worker-1
     image: devtae/back-worker
     restart: on-failure
     ports:
       - "9001:9001"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-worker-database
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
+
+  back-worker-2:
+    container_name: back-worker-2
+    image: devtae/back-worker
+    restart: on-failure
+    ports:
+      - "9011:9001"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-worker-database
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
+
+  back-worker-3:
+    container_name: back-worker-3
+    image: devtae/back-worker
+    restart: on-failure
+    ports:
+      - "9021:9001"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
@@ -84,8 +128,8 @@ services:
     networks:
       - database_network
 
-  back-work:
-    container_name: back-work
+  back-work-1:
+    container_name: back-work-1
     image: devtae/back-work
     restart: on-failure
     ports:
@@ -106,12 +150,94 @@ services:
       - eureka_network
       - database_network
 
-  back-dashboard:
-    container_name: back-dashboard
+  back-work-2:
+    container_name: back-work-2
+    image: devtae/back-work
+    restart: on-failure
+    ports:
+      - "9012:9002"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-work-database
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
+
+  back-work-3:
+    container_name: back-work-3
+    image: devtae/back-work
+    restart: on-failure
+    ports:
+      - "9022:9002"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-work-database
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
+
+  back-dashboard-1:
+    container_name: back-dashboard-1
     image: devtae/back-dashboard
     restart: on-failure
     ports:
       - "9003:9003"
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
+
+  back-dashboard-2:
+    container_name: back-dashboard-2
+    image: devtae/back-dashboard
+    restart: on-failure
+    ports:
+      - "9013:9003"
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      API_GATEWAY_URL: http://back-apigateway:9000
+    depends_on:
+      - back-eurekaserver
+      - back-apigateway
+    volumes:
+      - ./logs:/logs
+    networks:
+      - eureka_network
+      - database_network
+
+  back-dashboard-3:
+    container_name: back-dashboard-3
+    image: devtae/back-dashboard
+    restart: on-failure
+    ports:
+      - "9023:9003"
     environment:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
