@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+  # 프론트 컨테이너
   front:
     container_name: front
     image: devtae/front
@@ -9,29 +10,17 @@ services:
       - "80:80"
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
-  back-eurekaserver:
-    container_name: back-eurekaserver
-    image: devtae/back-eurekaserver
-    restart: on-failure
-    ports:
-      - "8761:8761"
-    networks:
-      - eureka_network
 
-  back-apigateway:
-    container_name: back-apigateway
-    image: devtae/back-apigateway
-    restart: on-failure
-    ports:
-      - "9000:9000"
-    environment:
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-    depends_on:
-      - back-eurekaserver
-    networks:
-      - eureka_network
-
+  # 데이터베이스 컨테이너
   back-worker-database:
     container_name: back-worker-database
     image: postgres:14.5
@@ -46,6 +35,77 @@ services:
       - ./back-worker-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+
+  back-work-database:
+    container_name: back-work-database
+    image: postgres:14.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB_BACK_WORK}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: 'Asia/Seoul'
+    volumes:
+      - ./back-work-data:/var/lib/postgresql/data
+      - ./back-work-init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+
+
+  # 백엔드 컨테이너
+  back-eurekaserver:
+    container_name: back-eurekaserver
+    image: devtae/back-eurekaserver
+    restart: on-failure
+    ports:
+      - "8761:8761"
+    networks:
+      - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+
+  back-apigateway:
+    container_name: back-apigateway
+    image: devtae/back-apigateway
+    restart: on-failure
+    ports:
+      - "9000:9000"
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
+    depends_on:
+      - back-eurekaserver
+    networks:
+      - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
   back-worker-1:
     container_name: back-worker-1
@@ -106,21 +166,6 @@ services:
         reservations:
           cpus: "0.1"
           memory: 40M
-
-  back-work-database:
-    container_name: back-work-database
-    image: postgres:14.5
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB_BACK_WORK}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      TZ: 'Asia/Seoul'
-    volumes:
-      - ./back-work-data:/var/lib/postgresql/data
-      - ./back-work-init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - database_network
 
   back-work-1:
     container_name: back-work-1
@@ -236,32 +281,6 @@ services:
           cpus: "0.1"
           memory: 40M
 
-#  elasticsearch:
-#    container_name: elasticsearch
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.0
-#    restart: on-failure
-#    environment:
-#      - discovery.type=single-node
-#      - path.logs=
-#        - /logs/back-worker-log4j2.log
-#        - /logs/back-work-log4j2.log
-#        - /logs/back-dashboard-log4j2.log
-#    ports:
-#      - "9200:9200"
-#    volumes:
-#      - ./logs:/logs
-#    networks:
-#      - eureka_network
-
-#  kibana:
-#    container_name: kibana
-#    image: docker.elastic.co/kibana/kibana:7.15.0
-#    restart: on-failure
-#    ports:
-#      - "5601:5601"
-#    networks:
-#      - eureka_network
-
   zipkin:
     container_name: zipkin
     image: openzipkin/zipkin:latest
@@ -270,6 +289,15 @@ services:
       - "9411:9411"
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+
 
 networks:
   database_network:
