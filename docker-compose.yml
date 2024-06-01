@@ -68,6 +68,14 @@ services:
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
   back-worker-2:
     container_name: back-worker-2
@@ -90,6 +98,14 @@ services:
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
   back-work-database:
     container_name: back-work-database
@@ -127,6 +143,14 @@ services:
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
   back-work-2:
     container_name: back-work-2
@@ -149,6 +173,14 @@ services:
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
   back-dashboard-1:
     container_name: back-dashboard-1
@@ -168,6 +200,14 @@ services:
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
   back-dashboard-2:
     container_name: back-dashboard-2
@@ -187,6 +227,14 @@ services:
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
 #  elasticsearch:
 #    container_name: elasticsearch
