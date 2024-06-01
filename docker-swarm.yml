@@ -46,6 +46,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
   back-work-database:
     image: postgres:14.5
@@ -69,7 +70,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
-
+        delay: 5s
 
   # 백엔드 컨테이너
   back-eurekaserver:
@@ -88,6 +89,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
   back-apigateway:
     image: devtae/back-apigateway
@@ -109,6 +111,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
   back-worker:
     image: devtae/back-worker
@@ -118,7 +121,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      SPRING_ZIPKIN_BASE_URL: http://back-zipkin:9411
       API_GATEWAY_URL: http://back-apigateway:9000
     volumes:
       - ./logs:/logs
@@ -136,6 +139,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
   back-work:
     image: devtae/back-work
@@ -145,7 +149,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      SPRING_ZIPKIN_BASE_URL: http://back-zipkin:9411
       API_GATEWAY_URL: http://back-apigateway:9000
     volumes:
       - ./logs:/logs
@@ -163,6 +167,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
   back-dashboard:
     image: devtae/back-dashboard
@@ -170,7 +175,7 @@ services:
       - "9003:9003"
     environment:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      SPRING_ZIPKIN_BASE_URL: http://back-zipkin:9411
       API_GATEWAY_URL: http://back-apigateway:9000
     volumes:
       - ./logs:/logs
@@ -188,8 +193,9 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
-  zipkin:
+  back-zipkin:
     image: openzipkin/zipkin:latest
     ports:
       - "9411:9411"
@@ -205,7 +211,7 @@ services:
           memory: 40M
       restart_policy:
         condition: on-failure
-
+        delay: 5s
 
 networks:
   database_network:
