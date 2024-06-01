@@ -1,22 +1,33 @@
-version: '3'
+# docker swarm init
+# docker stack deploy -c docker-swarm.yml cloudb
+
+version: '3.8'
 
 services:
   # 프론트 컨테이너
   front:
     container_name: front
     image: devtae/front
-    restart: on-failure
     ports:
       - "80:80"
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
 
   # 데이터베이스 컨테이너
   back-worker-database:
     container_name: back-worker-database
     image: postgres:14.5
-    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB_BACK_WORKER}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -27,11 +38,20 @@ services:
       - ./back-worker-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
   back-work-database:
     container_name: back-work-database
     image: postgres:14.5
-    restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB_BACK_WORK}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -42,22 +62,40 @@ services:
       - ./back-work-init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
 
   # 백엔드 컨테이너
   back-eurekaserver:
     container_name: back-eurekaserver
     image: devtae/back-eurekaserver
-    restart: on-failure
     ports:
       - "8761:8761"
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
   back-apigateway:
     container_name: back-apigateway
     image: devtae/back-apigateway
-    restart: on-failure
     ports:
       - "9000:9000"
     environment:
@@ -66,11 +104,20 @@ services:
       - back-eurekaserver
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
-  back-worker-1:
-    container_name: back-worker-1
+  back-worker:
+    container_name: back-worker
     image: devtae/back-worker
-    restart: on-failure
     ports:
       - "9001:9001"
     environment:
@@ -79,42 +126,25 @@ services:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
       API_GATEWAY_URL: http://back-apigateway:9000
-    depends_on:
-      - back-worker-database
-      - back-eurekaserver
-      - back-apigateway
     volumes:
       - ./logs:/logs
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
-  back-worker-2:
-    container_name: back-worker-2
-    image: devtae/back-worker
-    restart: on-failure
-    ports:
-      - "9011:9001"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://back-worker-database:5432/back_worker
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
-      API_GATEWAY_URL: http://back-apigateway:9000
-    depends_on:
-      - back-worker-database
-      - back-eurekaserver
-      - back-apigateway
-    volumes:
-      - ./logs:/logs
-    networks:
-      - eureka_network
-      - database_network
-
-  back-work-1:
-    container_name: back-work-1
+  back-work:
     image: devtae/back-work
-    restart: on-failure
     ports:
       - "9002:9002"
     environment:
@@ -123,84 +153,65 @@ services:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
       API_GATEWAY_URL: http://back-apigateway:9000
-    depends_on:
-      - back-work-database
-      - back-eurekaserver
-      - back-apigateway
     volumes:
       - ./logs:/logs
     networks:
       - eureka_network
       - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
-  back-work-2:
-    container_name: back-work-2
-    image: devtae/back-work
-    restart: on-failure
-    ports:
-      - "9012:9002"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://back-work-database:5432/back_work
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
-      API_GATEWAY_URL: http://back-apigateway:9000
-    depends_on:
-      - back-work-database
-      - back-eurekaserver
-      - back-apigateway
-    volumes:
-      - ./logs:/logs
-    networks:
-      - eureka_network
-      - database_network
-
-  back-dashboard-1:
-    container_name: back-dashboard-1
+  back-dashboard:
     image: devtae/back-dashboard
-    restart: on-failure
     ports:
       - "9003:9003"
     environment:
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
       API_GATEWAY_URL: http://back-apigateway:9000
-    depends_on:
-      - back-eurekaserver
-      - back-apigateway
     volumes:
       - ./logs:/logs
     networks:
       - eureka_network
       - database_network
-
-  back-dashboard-2:
-    container_name: back-dashboard-2
-    image: devtae/back-dashboard
-    restart: on-failure
-    ports:
-      - "9013:9003"
-    environment:
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://back-eurekaserver:8761/eureka
-      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
-      API_GATEWAY_URL: http://back-apigateway:9000
-    depends_on:
-      - back-eurekaserver
-      - back-apigateway
-    volumes:
-      - ./logs:/logs
-    networks:
-      - eureka_network
-      - database_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
   zipkin:
     container_name: zipkin
     image: openzipkin/zipkin:latest
-    restart: on-failure
     ports:
       - "9411:9411"
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
+      restart_policy:
+        condition: on-failure
 
 
 networks:
