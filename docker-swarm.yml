@@ -14,13 +14,14 @@ services:
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
+        delay: 5s
 
 
   # 데이터베이스 컨테이너
@@ -39,11 +40,11 @@ services:
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -63,11 +64,11 @@ services:
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -89,11 +90,11 @@ services:
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
-          cpus: "0.2"
-          memory: 800M # 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -117,11 +118,11 @@ services:
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -151,11 +152,11 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -185,11 +186,11 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -217,11 +218,11 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -237,11 +238,14 @@ services:
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
-          cpus: "0.2"
-          memory: 400M
+          cpus: "0.5"
+          memory: 1024M
         reservations:
           cpus: "0.1"
-          memory: 40M
+          memory: 32M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
 
 
 networks:
