@@ -242,9 +242,6 @@ services:
         reservations:
           cpus: "0.1"
           memory: 40M
-      restart_policy:
-        condition: on-failure
-        delay: 5s
 
 
 networks:
