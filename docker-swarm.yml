@@ -12,6 +12,13 @@ services:
     networks:
       - eureka_network
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
 
@@ -30,6 +37,13 @@ services:
     networks:
       - database_network
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -47,6 +61,13 @@ services:
     networks:
       - database_network
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -64,8 +85,15 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 800M # 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -85,8 +113,15 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -111,9 +146,16 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -141,6 +183,13 @@ services:
       start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -163,9 +212,16 @@ services:
       interval: 1m
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       replicas: 2
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -178,6 +234,14 @@ services:
       - "9411:9411"
     networks:
       - eureka_network
+    deploy: # t3-medium (2 cpus, ram 4gb 기준) 
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: 400M
+        reservations:
+          cpus: "0.1"
+          memory: 40M
 
 
 networks:
