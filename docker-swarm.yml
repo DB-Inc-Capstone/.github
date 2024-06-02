@@ -72,6 +72,7 @@ services:
         condition: on-failure
         delay: 5s
 
+
   # 백엔드 컨테이너
   back-eurekaserver:
     image: devtae/back-eurekaserver
@@ -79,6 +80,12 @@ services:
       - "8761:8761"
     networks:
       - eureka_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:8761/actuator/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
@@ -101,6 +108,12 @@ services:
       - back-eurekaserver
     networks:
       - eureka_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:9000/actuator/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       resources:
         limits:
@@ -128,6 +141,12 @@ services:
     networks:
       - eureka_network
       - database_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:9001/actuator/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       replicas: 2
       resources:
@@ -156,6 +175,12 @@ services:
     networks:
       - eureka_network
       - database_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:9002/actuator/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       replicas: 2
       resources:
@@ -182,6 +207,12 @@ services:
     networks:
       - eureka_network
       - database_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:9003/actuator/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     deploy: # t3-medium (2 cpus, ram 4gb 기준) 
       replicas: 2
       resources:
@@ -195,6 +226,8 @@ services:
         condition: on-failure
         delay: 5s
 
+
+  # 백엔드 로그 트레이싱
   back-zipkin:
     image: openzipkin/zipkin:latest
     ports:
@@ -212,6 +245,7 @@ services:
       restart_policy:
         condition: on-failure
         delay: 5s
+
 
 networks:
   database_network:
