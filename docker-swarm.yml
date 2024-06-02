@@ -81,7 +81,7 @@ services:
     networks:
       - eureka_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:8761/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
       interval: 1m
       timeout: 10s
       retries: 3
@@ -109,7 +109,7 @@ services:
     networks:
       - eureka_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:9000/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:9000/actuator/health"]
       interval: 1m
       timeout: 10s
       retries: 3
@@ -142,7 +142,7 @@ services:
       - eureka_network
       - database_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:9001/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:9001/actuator/health"]
       interval: 1m
       timeout: 10s
       retries: 3
@@ -176,7 +176,7 @@ services:
       - eureka_network
       - database_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:9002/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:9002/actuator/health"]
       interval: 1m
       timeout: 10s
       retries: 3
@@ -208,7 +208,7 @@ services:
       - eureka_network
       - database_network
     healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:9003/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:9003/actuator/health"]
       interval: 1m
       timeout: 10s
       retries: 3
