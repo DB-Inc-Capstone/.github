@@ -6,6 +6,9 @@
 - 시연 영상 링크
   - 다음 [링크](https://youtu.be/RcDwQzuEKno)에서 확인이 가능합니다.
 
+- 캡스톤 프로젝트 포스터 링크
+  - 다음 [링크](https://github.com/DB-Inc-Capstone/.github/blob/main/profile/%EC%BA%A1%EC%8A%A4%ED%86%A4%20%EB%B0%9C%ED%91%9C%20%ED%8F%AC%EC%8A%A4%ED%84%B0.pdf)에서 확인이 가능합니다.
+
 - 아래와 같이 프로젝트를 구성하였습니다.
   - [`.github`](https://github.com/DB-Inc-Capstone/.github) : 프로젝트 배포 관련 레포지토리
   - [`back-apigateway`](https://github.com/DB-Inc-Capstone/back-apigateway) : API Gateway 세팅
